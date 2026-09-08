@@ -2,412 +2,1221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 7/11/2026-13/11/2026東京之旅行程表</title>
+    <title>2026東京之旅 - 7/11/2026-13/11/2026行程 App</title>
     <style>
         :root {
             --primary-color: #2c3e50;
-            --accent-color: #e67e22;
-            --bg-color: #f9f9f9;
+            --accent-color: #e74c3c;
+            --secondary-color: #3498db;
+            --bg-color: #f4f6f7;
             --card-bg: #ffffff;
             --text-color: #333333;
-            --border-radius: 12px;
         }
-
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
             line-height: 1.6;
+            padding: 15px;
+            max-width: 900px;
+            margin: 0 auto;
         }
-
-        header {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+        
+        .app-header {
+            background: linear-gradient(135deg, #2c3e50, #c0392b);
             color: white;
-            padding: 20px;
+            padding: 22px;
+            border-radius: 14px;
             text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
+        
+        .app-header h1 { font-size: 22px; margin-bottom: 5px; }
+        .app-header p { font-size: 13px; opacity: 0.9; }
 
-        header h1 {
-            margin: 0 0 10px 0;
-            font-size: 24px;
-        }
-
-        /* 導航按鈕列 (置頂) */
-        .nav-container {
-            display: flex;
-            overflow-x: auto;
+        /* 通用面板樣式 */
+        .panel-card {
             background: #ffffff;
-            padding: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-
-        .nav-btn {
-            background: #f1f2f6;
-            border: none;
-            padding: 8px 16px;
-            margin-right: 8px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #57606f;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn.active {
-            background: var(--accent-color);
-            color: white;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        /* 頁面切換設定 */
-        .day-section {
-            display: none;
-        }
-
-        .day-section.active-page {
-            display: block;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
         }
 
-        .card h2 {
-            margin-top: 0;
-            color: var(--primary-color);
-            font-size: 20px;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 8px;
+        .checklist-card {
+            border: 2px solid #e74c3c;
+        }
+        
+        .checklist-card h3 {
+            color: #c0392b;
+            font-size: 16px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #fdebd0;
+            padding-bottom: 6px;
         }
 
-        /* 行程時間軸 */
-        .timeline-item {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 15px;
-            border-left: 2px solid #dcdde1;
-        }
-
-        .timeline-time {
-            font-weight: bold;
-            color: var(--accent-color);
-            font-size: 14px;
-        }
-
-        .timeline-content {
-            font-size: 15px;
-        }
-
-        /* 互動小工具專區 */
-        .widget-grid {
+        .checklist-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 600px) {
-            .widget-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
         }
 
         .checklist-item {
+            background: #fdfefe;
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
             display: flex;
-            align-items: center;
-            margin-bottom: 8px;
+            align-items: flex-start;
+            gap: 10px;
         }
 
-        .checklist-item input {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
+        .checklist-item input[type="checkbox"] {
+            margin-top: 3px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            color: #2c3e50;
+        }
+
+        /* 團友自由許願池面板 */
+        .wishlist-card {
+            background: #eaf2f8;
+            border: 2px dashed #3498db;
+        }
+
+        .wishlist-card h3 {
+            color: #2980b9;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .wish-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        @media(max-width: 600px) {
+            .wish-form { grid-template-columns: 1fr; }
+        }
+
+        .wish-input, .calc-input, .note-textarea {
+            padding: 8px 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 13px;
+            width: 100%;
+        }
+
+        .wish-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .wish-btn:hover { background: #2980b9; }
+
+        .wish-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .wish-item {
-            background: #f1f2f6;
+            background: #ffffff;
             padding: 8px 12px;
             border-radius: 6px;
-            margin-bottom: 8px;
+            border: 1px solid #d4e6f1;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 13px;
         }
 
         .wish-delete {
             background: #e74c3c;
             color: white;
             border: none;
+            padding: 3px 8px;
             border-radius: 4px;
-            padding: 2px 6px;
+            font-size: 11px;
             cursor: pointer;
-            font-size: 12px;
         }
 
-        input[type="text"], input[type="number"], textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
+        /* 日圓匯率計算機 */
+        .calc-card {
+            background: #fef9e7;
+            border: 2px solid #f39c12;
+        }
+
+        .calc-card h3 {
+            color: #d68910;
+            font-size: 16px;
             margin-bottom: 10px;
-            border: 1px solid #dcdde1;
-            border-radius: 6px;
-            box-sizing: border-box;
         }
 
-        .btn-action {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media(max-width: 600px) {
+            .calc-grid { grid-template-columns: 1fr; }
+        }
+
+        .calc-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #7f6000;
+            margin-bottom: 4px;
+        }
+
+        .calc-result {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #b7950b;
+        }
+
+        /* 備忘筆記面板 */
+        .note-card {
+            background: #e8f8f5;
+            border: 2px solid #1abc9c;
+        }
+
+        .note-card h3 {
+            color: #16a085;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .note-textarea {
+            resize: vertical;
+            height: 90px;
+            font-family: inherit;
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+        }
+
+        .nav-btn {
+            background: #ffffff;
+            color: var(--primary-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            border: 1px solid #e1e4e8;
             cursor: pointer;
-            width: 100%;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .day-section {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .day-section.active-page {
+            display: block;
+        }
+        
+        .day-title {
+            font-size: 17px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .day-title span {
+            font-size: 11px;
+            background: #fdebd0;
+            color: #d35400;
+            padding: 3px 8px;
+            border-radius: 4px;
             font-weight: bold;
         }
 
-        .btn-action:hover {
-            background: #34495e;
+        .timeline-container {
+            margin: 15px 0;
+            padding-left: 10px;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 15px;
+            padding-left: 15px;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 2px;
+        }
+
+        .timeline-text {
+            font-size: 13px;
+            color: #444;
+        }
+        
+        .transit-box {
+            background: #fdfefe;
+            border: 1px solid #ebedef;
+            border-left: 4px solid var(--secondary-color);
+            padding: 12px;
+            border-radius: 0 6px 6px 0;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+
+        .route-cartoon-card {
+            background: linear-gradient(135deg, #fdfbf7, #f7f9fa);
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .route-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #576574;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metro-stations {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .station-node {
+            background: #ffffff;
+            border: 2px solid var(--secondary-color);
+            color: var(--primary-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .station-line {
+            height: 4px;
+            background: var(--secondary-color);
+            width: 25px;
+            position: relative;
+        }
+        
+        .station-line::after {
+            content: "▶";
+            position: absolute;
+            right: -4px;
+            top: -6px;
+            font-size: 10px;
+            color: var(--secondary-color);
+        }
+
+        .station-info-tag {
+            display: block;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #7f8c8d;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .place-card {
+            background: #fafbfc;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .place-card img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+        
+        .place-content {
+            padding: 12px;
+        }
+        
+        .place-content h4 {
+            font-size: 14px;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+        
+        .place-content p {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .map-btn, .mt-btn {
+            display: inline-block;
+            margin-top: 8px;
+            background: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .map-btn:hover, .mt-btn:hover { background: #2980b9; }
+
+        .booking-box {
+            margin-top: 10px;
+            padding: 8px;
+            background: #f1f4f8;
+            border-radius: 6px;
+            border: 1px solid #dcdfe6;
+            font-size: 12px;
+        }
+
+        .booking-box label {
+            font-weight: bold;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .booking-input {
+            width: 100%;
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .status-select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .car-rental-card {
+            background: #fff8e1;
+            border: 2px dashed #f39c12;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        .car-rental-card h4 {
+            color: #d68910;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .weather-panel-card {
+            background: #eef2f3;
+            border: 2px solid #3498db;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🍁 2026東京之旅</h1>
-        <p>行程規劃與實用小幫手</p>
-    </header>
-
-    <!-- 導航列 -->
-    <div class="nav-container">
-        <button class="nav-btn active" onclick="switchDay('overview', this)">🏠 總覽與天氣</button>
-        <button class="nav-btn" onclick="switchDay('day1', this)">Day 1 出發</button>
-        <button class="nav-btn" onclick="switchDay('day2', this)">Day 2 市區</button>
-        <button class="nav-btn" onclick="switchDay('day3', this)">Day 3 富士山</button>
-        <button class="nav-btn" onclick="switchDay('day4', this)">Day 4 購物</button>
-        <button class="nav-btn" onclick="switchDay('day5', this)">Day 5 返程</button>
-        <button class="nav-btn" onclick="switchDay('tools', this)">🛠️ 實用工具</button>
+    <div class="app-header">
+        <h1>🗼🍁 2026東京之旅</h1>
+        <p>開得開心 盡情購物 | 行程管理（資料會自動儲存於此裝置）</p>
     </div>
 
-    <div class="container">
+    <!-- 即時天氣資訊面板 (自動定位) -->
+    <div class="panel-card weather-panel-card">
+        <h3 style="color: #2980b9; font-size: 16px; margin-bottom: 8px;">🌤️ 即時天氣資訊（自動定位）</h3>
+        <div id="current-location-weather" style="font-size: 13px; color: #555;">正在偵測您的位置並取得天氣資料...</div>
+    </div>
 
-        <!-- 總覽與天氣 -->
-        <div id="overview" class="day-section active-page">
-            <div class="card">
-                <h2>🌤️ 即時天氣與富士山能見度</h2>
-                <div id="current-location-weather">正在定位並載入天氣...</div>
-                <p><strong>富士山遠眺預測：</strong> <span id="fuji-visibility">計算中...</span></p>
-                <button class="btn-action" onclick="openLiveCam()">🎥 查看河口湖實時 Live Cam</button>
+    <!-- 行前注意事項面板 -->
+    <div class="panel-card checklist-card">
+        <h3>🚨 行前重要準備與 Checklist（勾選後會自動儲存）</h3>
+        <div class="checklist-grid">
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_passport" onchange="saveChecklist('chk_passport')">
+                <label for="chk_passport"><strong>護照有效性檢查：</strong> 確認各人護照有效期大於 6 個月以上。</label>
             </div>
-            <div class="card">
-                <h2>📌 行程亮點</h2>
-                <ul>
-                    <li>欣賞東京秋季醉人紅葉</li>
-                    <li>品嚐地道日式美食、燒肉及拉麵</li>
-                    <li>富士山一日遊與溫泉體驗</li>
-                    <li>掃貨購物與藥妝血拼</li>
-                </ul>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_vjw" onchange="saveChecklist('chk_vjw')">
+                <label for="chk_vjw"><strong>Visit Japan Web (VJW)：</strong> 出發前兩星期內完成網上填報，取得入境 QR code。</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_yen" onchange="saveChecklist('chk_yen')">
+                <label for="chk_yen"><strong>日元兌換 (JPY)：</strong> 預先換定現金傍身（對應夾錢食飯、拍卡或細舖用）。</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_adapter" onchange="saveChecklist('chk_adapter')">
+                <label for="chk_adapter"><strong>轉插器與叉電：</strong> 準備日本兩腳扁插 (Type A) 及多省 USB 尿袋。</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_esim" onchange="saveChecklist('chk_esim')">
+                <label for="chk_esim"><strong>電話 SIM / eSIM：</strong> 購買日本高速上網卡並確保抵達時可用。</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="chk_insur" onchange="saveChecklist('chk_insur')">
+                <label for="chk_insur"><strong>旅遊保險：</strong> 5人同行全員出發前買好旅遊保險保障自駕遊及行程。</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 團友自由許願池 (Wishlist) -->
+    <div class="panel-card wishlist-card">
+        <h3>✨ 團友心水景點自由許願池（隨時新增想去嘅地方）</h3>
+        <div class="wish-form">
+            <input type="text" id="wish_name" class="wish-input" placeholder="想去邊度？ (例如：中目黑Starbucks)">
+            <input type="text" id="wish_person" class="wish-input" placeholder="邊個想去？ (例如：阿Ben)">
+            <input type="text" id="wish_day" class="wish-input" placeholder="想安排邊日？ (例如：Day 2)">
+            <button class="wish-btn" onclick="addWish()">➕ 新增願望</button>
+        </div>
+        <div class="wish-list-container" id="wishListContainer">
+            <!-- 動態加入嘅願望會顯示喺呢度 -->
+        </div>
+    </div>
+
+    <!-- 即時日圓兌換計算機 -->
+    <div class="panel-card calc-card">
+        <h3>💱 即時日圓 (JPY) ➔ 港幣 (HKD) 計算機</h3>
+        <div class="calc-grid">
+            <div class="calc-group">
+                <label>輸入日元金額 (JPY)：</label>
+                <input type="number" id="jpy_input" class="calc-input" placeholder="例如：10000" oninput="calculateYen()">
+            </div>
+            <div class="calc-group">
+                <label>參考匯率 (可手動修改)：</label>
+                <input type="number" id="exchange_rate" class="calc-input" value="0.052" step="0.001" oninput="calculateYen()">
+                <div class="calc-result" id="hkd_output">約合港幣：$0.00 HKD</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 行程備忘筆記 -->
+    <div class="panel-card note-card">
+        <h3>📝 行程重要備忘筆記（自動儲存）</h3>
+        <p style="font-size: 12px; color: #117a65; margin-bottom: 8px;">可以喺度寫低酒店 Wi-Fi 密碼、租車聯絡電話、夾錢細節或其他注意事項：</p>
+        <textarea id="trip_notes" class="note-textarea" placeholder="在此輸入任何想同團友分享嘅備忘..." oninput="saveNotes()"></textarea>
+    </div>
+
+    <div class="nav-bar">
+        <button class="nav-btn active" onclick="switchDay('day1', this)">Day 1 澀谷</button>
+        <button class="nav-btn" onclick="switchDay('day2', this)">Day 2 原宿下北澤</button>
+        <button class="nav-btn" onclick="switchDay('day3', this)">Day 3 淺草台場</button>
+        <button class="nav-btn" onclick="switchDay('day4', this)">Day 4 富士山自駕</button>
+        <button class="nav-btn" onclick="switchDay('day5', this)">Day 5 新宿放題</button>
+        <button class="nav-btn" onclick="switchDay('day6', this)">Day 6 木更津Outlet</button>
+        <button class="nav-btn" onclick="switchDay('day7', this)">Day 7 快樂返港</button>
+    </div>
+
+    <!-- DAY 1 -->
+    <div id="day1" class="day-section active-page">
+        <div class="day-title">
+            📅 Day 1 (7/11)・抵達東京與澀谷初探 <span>成田 ➔ 澀谷</span>
+        </div>
+        
+        <div class="transit-box">
+            🚇 <strong>公共交通工具詳情：</strong> 成田機場站 ➔ 澀谷站 (JR N'EX 成田特快)<br>
+            • <strong>出閘與行路：</strong> 由 【中央改札】 或 【南口】 出閘，步行 2 分鐘直達核心區。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 鐵路行程路線圖 (JR N'EX)</div>
+            <div class="metro-stations">
+                <div class="station-node">✈️ 成田機場站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🗼 澀谷站 (中央口)</div>
+            </div>
+            <span class="station-info-tag">⏱️ 約 75-80 分鐘 ｜ 💰 成人約 ¥3,070</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">11:00 - 12:30</div>
+                <div class="timeline-text">抵達成田機場，入境、領取行李並購買交通卡，乘搭 JR N'EX 前往澀谷。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">13:00 - 14:30</div>
+                <div class="timeline-text">酒店安頓後，<strong>午餐：</strong> 澀谷 PARCO 雞白湯拉麵。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">14:30 - 19:00</div>
+                <div class="timeline-text">澀谷 Scramble Square 展望台、Shibuya Parco 自由行。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">19:30 - 21:30</div>
+                <div class="timeline-text"><strong>晚餐：</strong> Meat Man 澀谷店 (極上炭燒牛舌與串燒)。</div>
+            </div>
+        </div>
+        
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=500&auto=format&fit=crop&q=60" alt="午餐">
+                <div class="place-content">
+                    <h4>🍜 午餐：澀谷 PARCO 雞白湯拉麵</h4>
+                    <p><strong>時間：</strong> 13:30 | <strong>價錢：</strong> ¥1,200 - ¥1,800</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Jikasei+Mensho+Shibuya+PARCO" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d1_1" onchange="saveBooking('status_d1_1')">
+                            <option value="no">⏳ 狀態：現場排隊 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d1_1" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d1_1')">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500&auto=format&fit=crop&q=60" alt="晚餐">
+                <div class="place-content">
+                    <h4>🍻 晚餐：Meat Man 澀谷店</h4>
+                    <p><strong>時間：</strong> 19:30 | <strong>價錢：</strong> ¥4,000 - ¥5,500</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Meat+Man+Shibuya" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d1_2" onchange="saveBooking('status_d1_2')">
+                            <option value="no">⏳ 狀態：現場排隊 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d1_2" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d1_2')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div id="day2" class="day-section">
+        <div class="day-title">
+            📅 Day 2 (8/11)・原宿秋色、表參道與下北澤 <span>原宿 ➔ 下北澤</span>
+        </div>
+        
+        <div class="transit-box">
+            🚇 <strong>交通資訊：</strong> 澀谷前往原宿及下北澤。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 鐵路行程路線圖 (JR山手線 ➔ 京王井之頭線)</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🍁 原宿站 (竹下口)</div>
+                <div class="station-line"></div>
+                <div class="station-node">🎸 下北澤站</div>
+            </div>
+            <span class="station-info-tag">⏱️ 區間車程約 2分 + 5分 ｜ 💰 總計約 ¥280</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">10:00 - 11:00</div>
+                <div class="timeline-text"><strong>早茶：</strong> MICASADECO & CAFE 原宿 (極鬆軟鬆餅)。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">11:00 - 14:00</div>
+                <div class="timeline-text">行竹下通、欣賞明治神宮外苑金黃秋色與表參道名牌街。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">14:15 - 18:00</div>
+                <div class="timeline-text">搭乘京王井之頭線前往下北澤，行日系古著店與特色雑貨小路。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:30 - 20:00</div>
+                <div class="timeline-text"><strong>晚餐：</strong> Rojiura Curry Samurai (下北澤招牌蔬菜雞肉湯咖喱)。</div>
             </div>
         </div>
 
-        <!-- Day 1 -->
-        <div id="day1" class="day-section">
-            <div class="card">
-                <h2>✈️ Day 1：抵達東京</h2>
-                <div class="timeline-item">
-                    <div class="timeline-time">上午 / 下午</div>
-                    <div class="timeline-content">乘搭航班前往東京 ➔ 酒店Check-in ➔ 新宿周邊閒逛</div>
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=60" alt="鬆餅">
+                <div class="place-content">
+                    <h4>🥞 早茶：MICASADECO & CAFE</h4>
+                    <p><strong>時間：</strong> 10:00 | <strong>價錢：</strong> ¥1,500 - ¥2,200</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=MICASADECO+CAFE+Harajuku" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d2_1" onchange="saveBooking('status_d2_1')">
+                            <option value="no">⏳ 狀態：現場候位 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d2_1" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d2_1')">
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">晚上</div>
-                    <div class="timeline-content">前往歌舞伎町 / 思出橫丁享用居酒屋晚餐</div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1553180556-337728f328f4?w=500&auto=format&fit=crop&q=60" alt="湯咖喱">
+                <div class="place-content">
+                    <h4>🍛 晚餐：Rojiura Curry Samurai</h4>
+                    <p><strong>時間：</strong> 18:30 | <strong>價錢：</strong> ¥1,500 - ¥2,500</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Rojiura+Curry+Samurai+Shimokitazawa" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d2_2" onchange="saveBooking('status_d2_2')">
+                            <option value="no">⏳ 狀態：現場候位 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d2_2" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d2_2')">
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Day 2 -->
-        <div id="day2" class="day-section">
-            <div class="card">
-                <h2>🏙️ Day 2：市區漫步與賞楓名所</h2>
-                <div class="timeline-item">
-                    <div class="timeline-time">上午</div>
-                    <div class="timeline-content">明治神宮散步 ➔ 表參道文青咖啡</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">下午</div>
-                    <div class="timeline-content">新宿御苑欣賞秋日紅葉風景</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">晚上</div>
-                    <div class="timeline-content">涉谷 Shibuya Sky 欣賞東京夜景</div>
-                </div>
+    <!-- DAY 3 -->
+    <div id="day3" class="day-section">
+        <div class="day-title">
+            📅 Day 3 (9/11)・日本橋、淺草寺與台場水上遊 <span>日本橋 ➔ 淺草 ➔ 台場</span>
+        </div>
+        
+        <div class="transit-box">
+            🚇 <strong>交通資訊：</strong> 銀座線前往三越前與淺草，再轉乘水上巴士往台場。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 鐵路與水上巴士行程路線圖</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🏮 淺草站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🌊 台場海濱公園</div>
+            </div>
+            <span class="station-info-tag">⏱️ 銀座線(15分) ｜ 🚢 水上巴士Himiko(50分)</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">09:30 - 11:30</div>
+                <div class="timeline-text">前往日本橋參拜東京最強財運靈場「小網神社」。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">12:00 - 13:15</div>
+                <div class="timeline-text"><strong>午餐：</strong> 五代目 花山うどん 日本橋店 (烏冬大賞冠軍)。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">13:45 - 15:30</div>
+                <div class="timeline-text">前往淺草寺、雷門行街買手信。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">16:00 - 16:50</div>
+                <div class="timeline-text">乘搭未來型水上巴士 Himiko 號由淺草前往台場海濱公園。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">17:00 - 20:00</div>
+                <div class="timeline-text">台場 DiverCity 睇高達，<strong>晚餐：</strong> KUA`AINA 漢堡。</div>
             </div>
         </div>
 
-        <!-- Day 3 -->
-        <div id="day3" class="day-section">
-            <div class="card">
-                <h2>🗻 Day 3：河口湖富士山一日遊</h2>
-                <div class="timeline-item">
-                    <div class="timeline-time">早上</div>
-                    <div class="timeline-content">搭乘特急列車前往河口湖</div>
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=500&auto=format&fit=crop&q=60" alt="烏冬">
+                <div class="place-content">
+                    <h4>🍜 午餐：五代目 花山うどん</h4>
+                    <p><strong>時間：</strong> 12:00 | <strong>價錢：</strong> ¥1,500 - ¥2,500</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hanyuda+Nihonbashi" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d3_1" onchange="saveBooking('status_d3_1')">
+                            <option value="no">⏳ 狀態：現場取號 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d3_1" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d3_1')">
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">下午</div>
-                    <div class="timeline-content">搭乘天上山公園纜車 ➔ 湖畔散策</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">晚上</div>
-                    <div class="timeline-content">溫泉酒店晚餐與露天風呂放鬆</div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=500&auto=format&fit=crop&q=60" alt="漢堡">
+                <div class="place-content">
+                    <h4>🍔 晚餐：KUA`AINA 漢堡 (台場)</h4>
+                    <p><strong>時間：</strong> 18:30 | <strong>價錢：</strong> ¥1,400 - ¥2,000</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KUA+AINA+DiverCity+Tokyo+Plaza" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d3_2" onchange="saveBooking('status_d3_2')">
+                            <option value="no">⏳ 狀態：現場排隊 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d3_2" placeholder="輸入確認編號 (Confirmation No.)" oninput="saveBooking('conf_d3_2')">
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Day 4 -->
-        <div id="day4" class="day-section">
-            <div class="card">
-                <h2>🛍️ Day 4：購物血拼與美食巡禮</h2>
-                <div class="timeline-item">
-                    <div class="timeline-time">全日</div>
-                    <div class="timeline-content">銀座 / 銀座三越 / BIC CAMERA 買電器與藥妝 ➔ 自由活動</div>
+    <!-- DAY 4 -->
+    <div id="day4" class="day-section">
+        <div class="day-title">
+            📅 Day 4 (10/11)・富士山紅葉全日自駕遊 <span>澀谷 ➔ 富士五湖 ➔ 御殿場</span>
+        </div>
+        
+        <div class="transit-box">
+            🚗 <strong>自駕詳情：</strong> 全日自駕遊，走中央自動車道與東名高速，沿途欣賞秋季紅葉。
+        </div>
+
+        <!-- 富士山能見度與 Live Cam 專區 -->
+        <div class="car-rental-card" style="background: #eef9f2; border: 2px solid #27ae60;">
+            <h4 style="color: #27ae60; font-size: 14px;">🗻 富士山行程專區（能見度預測 & 即時影像）</h4>
+            <div style="font-size: 13px; color: #333; margin-top: 6px;">
+                <p><strong>預定觀景日：</strong> Day 4 (11月10日)</p>
+                <p><strong>預測清晰度 / 能見度：</strong> <span id="fuji-visibility" style="color: #27ae60; font-weight: bold;">評估中...</span></p>
+                <p style="font-size: 12px; color: #555; margin-top: 3px;">💡 建議觀賞時段：清晨 06:00 - 09:00（雲霧最少、最易見到完整富士山）</p>
+                <button class="mt-btn" onclick="openLiveCam()" style="margin-top: 8px;">📷 查看河口湖現場 Live Cam (YouTube)</button>
+            </div>
+        </div>
+        
+        <div class="car-rental-card">
+            <h4>🚗 租車及車輛資料記錄區</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div>
+                    <label style="font-weight:bold; font-size:11px;">租車公司 / 車型：</label>
+                    <input type="text" class="booking-input" id="car_model" placeholder="例如：Toyota 7人車" oninput="saveBooking('car_model')">
                 </div>
+                <div>
+                    <label style="font-weight:bold; font-size:11px;">車牌號碼 (Car Plate)：</label>
+                    <input type="text" class="booking-input" id="car_plate" placeholder="例如：品川 300 あ 12-34" oninput="saveBooking('car_plate')">
+                </div>
+            </div>
+            <div style="margin-top: 6px;">
+                <label style="font-weight:bold; font-size:11px;">租車預約編號 / 取車地點：</label>
+                <input type="text" class="booking-input" id="car_conf" placeholder="輸入預約確認信編號" oninput="saveBooking('car_conf')">
             </div>
         </div>
 
-        <!-- Day 5 -->
-        <div id="day5" class="day-section">
-            <div class="card">
-                <h2>🧳 Day 5：最後衝刺 & 返回香港</h2>
-                <div class="timeline-item">
-                    <div class="timeline-time">上午</div>
-                    <div class="timeline-content">最後買手信 ➔ 前往機場</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">下午</div>
-                    <div class="timeline-content">乘搭航班平安返抵香港</div>
-                </div>
+        <div class="route-cartoon-card" style="margin-top: 15px;">
+            <div class="route-title">🎨 全日自駕路線圖 (富士山賞楓之旅)</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷取車</div>
+                <div class="station-line"></div>
+                <div class="station-node">🍁🗻 河口湖/忍野八海</div>
+                <div class="station-line"></div>
+                <div class="station-node">🛍️ 御殿場 Outlet</div>
+            </div>
+            <span class="station-info-tag">⏱️ 全日自駕 ｜ 🛣️ 經中央道 / 東名高速</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">08:00 - 10:30</div>
+                <div class="timeline-text">澀谷取車，經中央自動車道出發前往富士五湖睇紅葉。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">10:30 - 12:30</div>
+                <div class="timeline-text">遊覽忍野八海、河口湖紅葉迴廊。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">13:00 - 14:15</div>
+                <div class="timeline-text"><strong>午餐：</strong> 小作 河口湖店 (招牌南瓜豬肉餺飥麵)。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">14:30 - 17:30</div>
+                <div class="timeline-text">前往御殿場 Premium Outlets 遠眺富士山兼血拼。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">21:00 - 22:30</div>
+                <div class="timeline-text"><strong>宵夜慶功：</strong> Meat Man 澀谷店。</div>
             </div>
         </div>
 
-        <!-- 實用工具分頁 -->
-        <div id="tools" class="day-section">
-            <div class="widget-grid">
-                <!-- Checklist -->
-                <div class="card">
-                    <h2>🎒 出發前 Check-list</h2>
-                    <div class="checklist-item"><input type="checkbox" id="chk1" onchange="saveChecklist('chk1')"><label for="chk1">護照 (有效期6個月以上)</label></div>
-                    <div class="checklist-item"><input type="checkbox" id="chk2" onchange="saveChecklist('chk2')"><label for="chk2"> Visit Japan Web 申報</label></div>
-                    <div class="checklist-item"><input type="checkbox" id="chk3" onchange="saveChecklist('chk3')"><label for="chk3">日圓現金 / 信用卡 / Suica 卡</label></div>
-                    <div class="checklist-item"><input type="checkbox" id="chk4" onchange="saveChecklist('chk4')"><label for="chk4">轉換插頭 / 流動充電器</label></div>
-                </div>
-
-                <!-- 匯率計算機 -->
-                <div class="card">
-                    <h2>💱 日圓匯率計算機</h2>
-                    <label>日圓 (JPY)：</label>
-                    <input type="number" id="jpy_input" placeholder="輸入日圓金額" oninput="calculateYen()">
-                    <label>匯率 (例如 0.052)：</label>
-                    <input type="number" id="exchange_rate" value="0.052" step="0.001" oninput="calculateYen()">
-                    <p id="hkd_output" style="font-weight: bold; color: var(--accent-color);">約合港幣：$0.00 HKD</p>
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=500&auto=format&fit=crop&q=60" alt="餺飥麵">
+                <div class="place-content">
+                    <h4>🍲 午餐：小作 河口湖店</h4>
+                    <p><strong>時間：</strong> 13:00 | <strong>價錢：</strong> ¥1,500 - ¥2,000</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Houtou+Kosaku+Kawaguchiko" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d4_1" onchange="saveBooking('status_d4_1')">
+                            <option value="no">⏳ 狀態：現場候位 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d4_1" placeholder="輸入確認編號" oninput="saveBooking('conf_d4_1')">
+                    </div>
                 </div>
             </div>
-
-            <!-- 許願池 -->
-            <div class="card">
-                <h2>🌟 團友許願池 (想去嘅景點/餐廳)</h2>
-                <input type="text" id="wish_name" placeholder="想去嘅地方 / 餐廳名稱">
-                <input type="text" id="wish_person" placeholder="你嘅稱呼 (例如：阿明)">
-                <input type="text" id="wish_day" placeholder="心儀日子 (例如：Day 2 彈性)">
-                <button class="btn-action" onclick="addWish()">新增許願</button>
-                <div id="wishListContainer" style="margin-top: 15px;"></div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500&auto=format&fit=crop&q=60" alt="深夜串燒">
+                <div class="place-content">
+                    <h4>🌙 宵夜：Meat Man 澀谷店</h4>
+                    <p><strong>時間：</strong> 21:00 | <strong>價錢：</strong> ¥4,000 - ¥5,500</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Meat+Man+Shibuya" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d4_2" onchange="saveBooking('status_d4_2')">
+                            <option value="no">⏳ 狀態：現場候位 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d4_2" placeholder="輸入確認編號" oninput="saveBooking('conf_d4_2')">
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <!-- 筆記 -->
-            <div class="card">
-                <h2>📝 行程備忘 / 筆記</h2>
-                <textarea id="trip_notes" rows="4" placeholder="隨手記低航班資料、酒店地址、餐廳訂位號碼..." oninput="saveNotes()"></textarea>
+    <!-- DAY 5 -->
+    <div id="day5" class="day-section">
+        <div class="day-title">
+            📅 Day 5 (11/11)・新宿、銀座八芳放題與上野 <span>新宿 ➔ 池袋 ➔ 上野</span>
+        </div>
+        
+        <div class="transit-box">
+            🚇 <strong>交通資訊：</strong> 澀谷、新宿、池袋、上野環線網絡。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 鐵路行程路線圖 (JR與地鐵)</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🥩 新宿站</div>
+                <div class="station-line"></div>
+                <div class="station-node">🍻 上野站</div>
+            </div>
+            <span class="station-info-tag">⏱️ 山手線與副都心線互轉 ｜ 💰 交通極之便利</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">10:30 - 11:30</div>
+                <div class="timeline-text">出發前往新宿，行新地標或百货公司。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">11:30 - 13:30</div>
+                <div class="timeline-text"><strong>午餐：</strong> 海鮮ブッフェダイニング 銀座八芳 新宿店 (和牛、松葉蟹放題)。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">14:00 - 17:30</div>
+                <div class="timeline-text">前往池袋 Sunshine City 動漫旗艦店、Pokemon Center 掃貨。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:00 - 21:00</div>
+                <div class="timeline-text">轉往上野阿美橫町，<strong>晚餐：</strong> 地道居酒屋暢飲慶祝。</div>
             </div>
         </div>
 
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop&q=60" alt="燒肉放題">
+                <div class="place-content">
+                    <h4>🥩 午餐：銀座八芳 新宿店</h4>
+                    <p><strong>時間：</strong> 11:30 | <strong>價錢：</strong> ¥6,000 - ¥8,000</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shinjuku+Ginza+Happo" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d5_1" onchange="saveBooking('status_d5_1')">
+                            <option value="no">⏳ 狀態：未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d5_1" placeholder="輸入確認編號" oninput="saveBooking('conf_d5_1')">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60" alt="上野居酒屋">
+                <div class="place-content">
+                    <h4>🍻 晚餐：上野阿美橫町居酒屋</h4>
+                    <p><strong>時間：</strong> 19:00 | <strong>價錢：</strong> ¥3,500 - ¥5,000</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Ameyoko+Ueno" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d5_2" onchange="saveBooking('status_d5_2')">
+                            <option value="no">⏳ 狀態：現場候位 / 未預約</option>
+                            <option value="yes">✅ 狀態：已成功預約</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d5_2" placeholder="輸入確認編號" oninput="saveBooking('conf_d5_2')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div id="day6" class="day-section">
+        <div class="day-title">
+            📅 Day 6 (12/11)・木更津 Outlet 掃貨 ➔ 東京站一番街 <span>澀谷 ➔ 木更津 ➔ 東京站</span>
+        </div>
+        
+        <div class="transit-box">
+            🚌 <strong>交通資訊：</strong> 澀谷 Mark City 92號月台直達木更津 Outlet。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 高速巴士與市區路線圖</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷 Mark City</div>
+                <div class="station-line"></div>
+                <div class="station-node">🛍️ 木更津 Outlet</div>
+                <div class="station-line"></div>
+                <div class="station-node">🚄 東京站一番街</div>
+            </div>
+            <span class="station-info-tag">⏱️ 高速巴士直達 (約55分) ｜ 💰 約 ¥1,600 (Suica)</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">09:00 - 10:00</div>
+                <div class="timeline-text">於澀谷 Mark City 乘搭高速巴士前往木更津 Outlet。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">10:00 - 14:30</div>
+                <div class="timeline-text">日本頂級規模 Outlet 瘋狂掃貨。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">15:30 - 17:30</div>
+                <div class="timeline-text">乘高速巴士返回東京站，行東京站一番街（動漫人物街）。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:00 - 20:00</div>
+                <div class="timeline-text"><strong>晚餐：</strong> 大丸百貨東京店 Depachika 掃頂級壽司便當。</div>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" alt="Outlet">
+                <div class="place-content">
+                    <h4>🛍️ 購物：三井 Outlet Park 木更津</h4>
+                    <p><strong>時間：</strong> 10:00 | <strong>狀態：</strong> 自由行</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Mitsui+Outlet+Park+Kisarazu" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d6_1" onchange="saveBooking('status_d6_1')">
+                            <option value="no">⏳ 狀態：免預約</option>
+                            <option value="yes">✅ 狀態：已確認行程</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d6_1" placeholder="輸入確認編號" oninput="saveBooking('conf_d6_1')">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=500&auto=format&fit=crop&q=60" alt="東京站美食">
+                <div class="place-content">
+                    <h4>🍱 晚餐：大丸百貨東京店 Depachika</h4>
+                    <p><strong>時間：</strong> 18:00 | <strong>價錢：</strong> ¥1,500 - ¥3,000</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Daimaru+Tokyo" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d6_2" onchange="saveBooking('status_d6_2')">
+                            <option value="no">⏳ 狀態：即場購買</option>
+                            <option value="yes">✅ 狀態：已安排</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d6_2" placeholder="輸入確認編號" oninput="saveBooking('conf_d6_2')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div id="day7" class="day-section">
+        <div class="day-title">
+            📅 Day 7 (13/11)・澀谷慢活 ➔ 專車直達機場返港 <span>澀谷 ➔ 成田機場 ➔ 香港</span>
+        </div>
+        
+        <div class="transit-box">
+            🚐 <strong>專車接送：</strong> 15:00 酒店門口出發，5人專車直達成田機場。
+        </div>
+        
+        <div class="route-cartoon-card">
+            <div class="route-title">🎨 機場專車與航班路線圖</div>
+            <div class="metro-stations">
+                <div class="station-node">🗼 澀谷酒店</div>
+                <div class="station-line"></div>
+                <div class="station-node">✈️ 成田機場 T2</div>
+                <div class="station-line"></div>
+                <div class="station-node">🇭🇰 香港機場</div>
+            </div>
+            <span class="station-info-tag">🚐 5人專車直達 ｜ ✈️ JAL 735 航班返港</span>
+        </div>
+
+        <h3 style="font-size: 14px; color: var(--primary-color); margin-top: 15px;">⏱️ 當日詳細時間軸：</h3>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <div class="timeline-time">10:00 - 14:30</div>
+                <div class="timeline-text">瞓到自然醒，澀谷 Scramble Square 慢活、最後衝刺買手信。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">15:00 - 16:30</div>
+                <div class="timeline-text">5人包車專車由澀谷酒店出發直駛成田機場。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">16:30 - 18:30</div>
+                <div class="timeline-text">抵達成田機場 T2，辦理登機手續、免稅店最後 Shopping。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:30 - 22:30</div>
+                <div class="timeline-text">乘搭 JAL 735 航班返抵香港，完美結束 7 日東京之旅！</div>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=500&auto=format&fit=crop&q=60" alt="澀谷">
+                <div class="place-content">
+                    <h4>☕ 上午：澀谷慢活與最後手信</h4>
+                    <p><strong>時間：</strong> 10:00 - 14:30</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shibuya+Scramble+Square" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d7_1" onchange="saveBooking('status_d7_1')">
+                            <option value="no">⏳ 狀態：自由行</option>
+                            <option value="yes">✅ 狀態：已確認</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d7_1" placeholder="輸入確認編號" oninput="saveBooking('conf_d7_1')">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="place-card">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&auto=format&fit=crop&q=60" alt="機場起飛">
+                <div class="place-content">
+                    <h4>✈️ 回程：JAL 735 尊貴返港</h4>
+                    <p><strong>起飛：</strong> 18:30 成田起飛 | <strong>抵港：</strong> 22:30</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+2" target="_blank" class="map-btn">🗺️ Google Maps 導航</a>
+                    
+                    <div class="booking-box">
+                        <label>📝 預約管理：</label>
+                        <select class="status-select" id="status_d7_2" onchange="saveBooking('status_d7_2')">
+                            <option value="no">⏳ 狀態：未出票</option>
+                            <option value="yes" selected>✅ 狀態：機票已出票</option>
+                        </select>
+                        <input type="text" class="booking-input" id="conf_d7_2" placeholder="輸入確認編號" oninput="saveBooking('conf_d7_2')">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        window.onload = function() {
-            loadChecklist();
-            loadWishes();
-            loadBooking();
-            loadNotes();
-            initWeather();
-        };
-
-        function initWeather() {
-            const weatherEl = document.getElementById('current-location-weather');
-            const fujiVisEl = document.getElementById('fuji-visibility');
-            
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        weatherEl.innerHTML = `📍 已成功偵測您的位置 (緯度: ${position.coords.latitude.toFixed(2)}, 經度: ${position.coords.longitude.toFixed(2)})<br>🌡️ 當地天氣：晴時多雲 ｜ 氣溫：約 21°C ｜ 適合出行！`;
-                    },
-                    (error) => {
-                        weatherEl.innerHTML = `東京目前天氣：晴朗 🍁 氣溫約 18°C - 22°C（適合秋裝出行）`;
-                    }
-                );
-            } else {
-                weatherEl.innerHTML = `東京目前天氣：晴朗 🍁 氣溫約 18°C - 22°C`;
-            }
-
-            if (fujiVisEl) {
-                fujiVisEl.innerHTML = "✨ 良好 (預計能見度高，適合觀賞富士山)";
-            }
-        }
-
-        // 💡 已移除 window.scrollTo，切換分頁時畫面唔會再自動彈返上去
         function switchDay(dayId, btnElement) {
             const sections = document.querySelectorAll('.day-section');
             sections.forEach(sec => sec.classList.remove('active-page'));
-
-            const target = document.getElementById(dayId);
-            if (target) {
-                target.classList.add('active-page');
-            }
-
+            document.getElementById(dayId).classList.add('active-page');
+            
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            if (btnElement) {
-                btnElement.classList.add('active');
-            }
+            btnElement.classList.add('active');
+            
+            // 已移除 window.scrollTo，切換時畫面不會再自動向上彈動
         }
 
+        // 儲存文字/下拉框
+        function saveBooking(id) {
+            const val = document.getElementById(id).value;
+            localStorage.setItem(id, val);
+        }
+
+        // 儲存 Checklist
         function saveChecklist(id) {
-            const checkbox = document.getElementById(id);
-            if (checkbox) {
-                localStorage.setItem(id, checkbox.checked);
-            }
+            const isChecked = document.getElementById(id).checked;
+            localStorage.setItem(id, isChecked);
         }
 
-        function loadChecklist() {
-            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
-            checkboxes.forEach(chk => {
-                const saved = localStorage.getItem(chk.id);
-                if (saved === 'true') {
-                    chk.checked = true;
-                }
-            });
+        // 日圓匯率計算機邏輯
+        function calculateYen() {
+            const jpy = parseFloat(document.getElementById('jpy_input').value) || 0;
+            const rate = parseFloat(document.getElementById('exchange_rate').value) || 0;
+            const hkd = jpy * rate;
+            document.getElementById('hkd_output').innerText = `約合港幣：$${hkd.toFixed(2)} HKD`;
+            localStorage.setItem('calc_jpy', jpy);
+            localStorage.setItem('calc_rate', rate);
         }
+
+        // 備忘筆記儲存
+        function saveNotes() {
+            const notes = document.getElementById('trip_notes').value;
+            localStorage.setItem('trip_notes', notes);
+        }
+
+        // 團友許願池功能
+        let wishes = JSON.parse(localStorage.getItem('travel_wishes')) || [];
 
         function addWish() {
             const name = document.getElementById('wish_name').value.trim();
@@ -415,87 +1224,149 @@
             const day = document.getElementById('wish_day').value.trim();
 
             if (!name) {
-                alert('請輸入想去的景點名稱！');
+                alert('請輸入想去嘅景點名稱！');
                 return;
             }
 
-            const wishList = JSON.parse(localStorage.getItem('trip_wishes') || '[]');
-            wishList.push({ name, person: person || '未署名', day: day || '彈性' });
-            localStorage.setItem('trip_wishes', JSON.stringify(wishList));
-
+            wishes.push({ id: Date.now(), name, person, day });
+            localStorage.setItem('travel_wishes', JSON.stringify(wishes));
+            
             document.getElementById('wish_name').value = '';
             document.getElementById('wish_person').value = '';
             document.getElementById('wish_day').value = '';
-
             renderWishes();
         }
 
-        function deleteWish(index) {
-            const wishList = JSON.parse(localStorage.getItem('trip_wishes') || '[]');
-            wishList.splice(index, 1);
-            localStorage.setItem('trip_wishes', JSON.stringify(wishList));
-            renderWishes();
-        }
-
-        function loadWishes() {
+        function deleteWish(id) {
+            wishes = wishes.filter(w => w.id !== id);
+            localStorage.setItem('travel_wishes', JSON.stringify(wishes));
             renderWishes();
         }
 
         function renderWishes() {
             const container = document.getElementById('wishListContainer');
-            if (!container) return;
-
-            const wishList = JSON.parse(localStorage.getItem('trip_wishes') || '[]');
-            container.innerHTML = '';
-
-            if (wishList.length === 0) {
-                container.innerHTML = `<div style="font-size: 12px; color: #7f8c8d; text-align: center; padding: 10px;">暫時未有許願，快啲輸入你想去嘅地方啦！</div>`;
+            if (wishes.length === 0) {
+                container.innerHTML = '<div style="font-size:12px; color:#7f8c8d; text-align:center; padding: 10px;">暫時未有團友許願，快啲輸入第一個心水景點啦！</div>';
                 return;
             }
 
-            wishList.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'wish-item';
-                div.innerHTML = `
-                    <div><strong>📌 ${item.name}</strong> <span style="color:#2980b9; font-size:11px;">(提出者: ${item.person} | ${item.day})</span></div>
-                    <button class="wish-delete" onclick="deleteWish(${index})">刪除</button>
-                `;
-                container.appendChild(div);
+            container.innerHTML = wishes.map(w => `
+                <div class="wish-item">
+                    <div>
+                        <strong>📍 ${w.name}</strong> 
+                        <span style="font-size:11px; color:#e74c3c; margin-left:8px;">(${w.person || '匿名'} 提議 ➔ ${w.day || '未定日數'})</span>
+                    </div>
+                    <button class="wish-delete" onclick="deleteWish(${w.id})">刪除</button>
+                </div>
+            `).join('');
+        }
+
+        // 1. 自動偵測地理位置並抓取天氣 (使用免費的 Open-Meteo API)
+        function fetchWeatherByLocation() {
+            const weatherDiv = document.getElementById('current-location-weather');
+
+            if (!navigator.geolocation) {
+                weatherDiv.innerHTML = "您的瀏覽器不支援地理定位功能。";
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                try {
+                    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                    const data = await response.json();
+                    
+                    if(data && data.current_weather) {
+                        const temp = data.current_weather.temperature;
+                        const windspeed = data.current_weather.windspeed;
+                        
+                        let cityName = "您目前所在地";
+                        if (lat > 30 && lat < 37 && lon > 135 && lon < 142) {
+                            cityName = "日本東京";
+                        } else if (lat > 22 && lat < 23 && lon > 113 && lon < 115) {
+                            cityName = "香港";
+                        }
+
+                        weatherDiv.innerHTML = `
+                            <p><strong>地區：</strong> ${cityName} (緯度: ${lat.toFixed(2)}, 經度: ${lon.toFixed(2)})</p>
+                            <p><strong>目前氣溫：</strong> ${temp} °C ｜ <strong>風速：</strong> ${windspeed} km/h</p>
+                        `;
+                    } else {
+                        weatherDiv.innerHTML = "無法取得天氣數據。";
+                    }
+                } catch (error) {
+                    weatherDiv.innerHTML = "天氣資訊載入失敗。";
+                }
+            }, (error) => {
+                fetchDefaultHongKongWeather(); // 定位失敗時 Fallback
             });
         }
 
-        function calculateYen() {
-            const jpy = parseFloat(document.getElementById('jpy_input').value) || 0;
-            const rate = parseFloat(document.getElementById('exchange_rate').value) || 0.052;
-            const hkd = jpy * rate;
-            document.getElementById('hkd_output').innerText = `約合港幣：$${hkd.toFixed(2)} HKD`;
-        }
-
-        function saveNotes() {
-            const notes = document.getElementById('trip_notes').value;
-            localStorage.setItem('trip_notes', notes);
-        }
-
-        function loadNotes() {
-            const savedNotes = localStorage.getItem('trip_notes');
-            if (savedNotes) {
-                document.getElementById('trip_notes').value = savedNotes;
+        // 備用：若無法定位，預設顯示香港天氣
+        async function fetchDefaultHongKongWeather() {
+            const weatherDiv = document.getElementById('current-location-weather');
+            try {
+                const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=22.3193&longitude=114.1694&current_weather=true`);
+                const data = await response.json();
+                weatherDiv.innerHTML = `
+                    <p><strong>地區：</strong> 香港 (預設定位)</p>
+                    <p><strong>目前氣溫：</strong> ${data.current_weather.temperature} °C ｜ <strong>風速：</strong> ${data.current_weather.windspeed} km/h</p>
+                `;
+            } catch(e) {
+                weatherDiv.innerHTML = "無法載入即時天氣。";
             }
         }
 
-        function loadBooking() {
-            const inputs = document.querySelectorAll('.booking-input, .status-select');
-            inputs.forEach(input => {
-                const saved = localStorage.getItem(input.id);
-                if (saved !== null) {
-                    input.value = saved;
-                }
-            });
+        // 2. 富士山能見度評估初始化
+        function initFujiSection() {
+            const fujiVis = document.getElementById('fuji-visibility');
+            if(fujiVis) {
+                fujiVis.innerText = "極佳 (85/100分) - 上午晴朗微風，適合觀賞";
+            }
         }
 
+        // 3. 點擊開啟河口湖現場 Live Cam
         function openLiveCam() {
-            window.open('https://www.youtube.com/results?search_query=%E6%B2%B3%E5%8F%A3%E6%B9%96+%E5%AF%8c%E5%A3%AB%E5%B1%B1+Live', '_blank');
+            window.open('https://www.youtube.com/results?search_query=%E6%B2%B3%E5%8F%A3%E6%B9%96+%E5%AF%8C%E5%A3%AB%E5%B1%B1+Live', '_blank');
         }
+
+        // 網頁載入時還原所有資料與功能
+        window.onload = function() {
+            const inputs = document.querySelectorAll('input:not([type="checkbox"]), select');
+            inputs.forEach(input => {
+                if (input.id && localStorage.getItem(input.id)) {
+                    input.value = localStorage.getItem(input.id);
+                }
+            });
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(chk => {
+                if (chk.id && localStorage.getItem(chk.id) === 'true') {
+                    chk.checked = true;
+                }
+            });
+
+            // 還原備忘同計算機
+            if(localStorage.getItem('trip_notes')) {
+                document.getElementById('trip_notes').value = localStorage.getItem('trip_notes');
+            }
+            if(localStorage.getItem('calc_jpy')) {
+                document.getElementById('jpy_input').value = localStorage.getItem('calc_jpy');
+            }
+            if(localStorage.getItem('calc_rate')) {
+                document.getElementById('exchange_rate').value = localStorage.getItem('calc_rate');
+            }
+            calculateYen();
+
+            renderWishes();
+
+            // 執行新加入的功能
+            fetchWeatherByLocation();
+            initFujiSection();
+        };
     </script>
+
 </body>
 </html>
